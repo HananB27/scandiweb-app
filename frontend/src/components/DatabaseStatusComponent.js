@@ -6,7 +6,7 @@ const DatabaseStatusComponent = () => {
   useEffect(() => {
     const fetchDBStatus = async () => {
       try {
-        const res = await fetch('http://localhost:8000/db_test.php');
+        const res = await fetch('https://scandiweb-app-production.up.railway.app/db_test.php');
         if (!res.ok) {
           throw new Error('Network response was not ok');
         }
