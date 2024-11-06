@@ -3,13 +3,28 @@
 namespace App\Controller\Config;
 require_once __DIR__ . "/../../../vendor/autoload.php";
 
+use Dotenv\Dotenv;
+
 class Database {
-    private $host = 'junction.proxy.rlwy.net';
-    private $db_name = 'railway';
-    private $username = 'root';
-    private $password = 'lHdglQmIYwWFBDpNvtLqABFfbBcUHVmU';
-    private $port = 49510;
+    private $host;
+    private $db_name;
+    private $username;
+    private $password;
+    private $port;
     private $conn;
+
+    public function __construct() {
+        // Load environment variables
+        $dotenv = Dotenv::createImmutable(__DIR__ . '/../../../');
+        $dotenv->load();
+
+        // Set database connection parameters from environment variables
+        $this->host = $_ENV['DB_HOST'];
+        $this->db_name = $_ENV['DB_NAME'];
+        $this->username = $_ENV['DB_USERNAME'];
+        $this->password = $_ENV['DB_PASSWORD'];
+        $this->port = $_ENV['DB_PORT'];
+    }
 
     public function connect() {
         // Initialize the connection with the specified port
