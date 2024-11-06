@@ -1,0 +1,3 @@
+[submodule "fullstack-test-starter"]
+	path = fullstack-test-starter
+	url = https://github.com/HananB27/fullstack-test-starter
