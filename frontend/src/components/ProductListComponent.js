@@ -7,7 +7,7 @@ const ProductListComponent = () => {
   useEffect(() => {
     const fetchGraphQLData = async () => {
       try {
-        const res = await fetch('http://localhost:8000/graphql', {
+        const res = await fetch('https://scandiweb-app-production.up.railway.app/graphql', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -47,21 +47,32 @@ const ProductListComponent = () => {
         });
         
         const text = await res.text();
-        if (!text) throw new Error("Empty response from server");
+        
+        // Log the raw response to identify issues
+        console.log("Server response:", text);
+        
+        // Attempt to parse as JSON, or handle as an error if it's not JSON
+        try {
+          const result = JSON.parse(text);
+          
+          if (result.errors) {
+            setGraphQLErrors(result.errors);
+          }
     
-        const result = JSON.parse(text);
-    
-        if (result.errors) {
-          setGraphQLErrors(result.errors);
+          if (res.ok && result.data) {
+            setItems(result.data.products);
+          }
+        } catch (jsonError) {
+          console.error("Failed to parse JSON response:", jsonError);
+          console.error("Response text:", text);
+          setGraphQLErrors([{ message: "Invalid response format from server." }]);
         }
     
-        if (res.ok && result.data) {
-          setItems(result.data.products);
-        } 
       } catch (error) {
         console.error('Error fetching GraphQL data:', error);
       }
     };
+    
     
     fetchGraphQLData();
   }, []);
