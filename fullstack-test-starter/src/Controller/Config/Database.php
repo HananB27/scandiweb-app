@@ -27,14 +27,30 @@ class Database {
     }
 
     public function connect() {
-        // Initialize the connection with the specified port
-        $this->conn = new \mysqli($this->host, $this->username, $this->password, $this->db_name, $this->port);
+        // Set script execution time limit
+        set_time_limit(60); // Temporarily increase the execution time limit to 60 seconds
 
-        // Check if the connection was successful
-        if ($this->conn->connect_error) {
-            die("Connection Error: " . $this->conn->connect_error);
+
+
+        // Enable strict error reporting for MySQLi and set connection timeout
+        mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+        $this->conn = new \mysqli();
+        $this->conn->options(MYSQLI_OPT_CONNECT_TIMEOUT, 5); // Set a 5-second timeout
+
+        // Attempt to connect
+        try {
+            $this->conn->real_connect($this->host, $this->username, $this->password, $this->db_name, $this->port);
+
+            // Check if the connection was successful
+            if ($this->conn->connect_error) {
+                die("Connection Error: " . $this->conn->connect_error);
+            }
+
+            echo "Connection successful!";
+            return $this->conn;
+        } catch (\mysqli_sql_exception $e) {
+            // Gracefully handle connection errors
+            die("Connection failed: " . $e->getMessage());
         }
-
-        return $this->conn;
     }
 }

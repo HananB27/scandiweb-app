@@ -17,7 +17,7 @@
   "scripts": {
     "start": "concurrently \"npm run start-react\" \"npm run start-php\"",
     "start-react": "react-scripts start",
-    "start-php": "cd .. && php -S localhost:8000 -t fullstack-test-starter/",
+    "start-php": "cd .. && php -S localhost:8000 -t fullstack-test-starter/public/",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

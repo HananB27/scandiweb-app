@@ -1,15 +1,12 @@
 import React, { useState } from 'react';
 import FormComponent from './components/FormComponent';
 import ProductListComponent from './components/ProductListComponent';
-import DatabaseStatusComponent from './components/DatabaseStatusComponent';
 
 const App = () => {
   const [orders, setOrders] = useState([]);
 
   return (
-    <div>
-      
-      <DatabaseStatusComponent />
+    <div>      
       <h1>Order Management</h1>
       <FormComponent setOrders={setOrders} />
       <h2>Existing Orders</h2>
