@@ -27,16 +27,27 @@ class Product
     // Fetch all products
     public static function getAllProducts() {
         $database = new Database();
-         $db = $database ->connect();
+        $db = $database->connect();
+    
+        if (!$db) {
+            error_log("Database connection failed.");
+            return null; // or return an empty array to avoid errors
+        }
+    
         $result = $db->query('SELECT * FROM products');
+        if (!$result) {
+            error_log("Query failed: " . $db->error);
+            return null;
+        }
+    
         $products = [];
-
         while ($row = $result->fetch_assoc()) {
             $products[] = $row;
         }
-
+    
         return $products;
     }
+    
 
 
     // Fetch attributes for a product
